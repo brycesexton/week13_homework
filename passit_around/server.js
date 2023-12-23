@@ -8,17 +8,10 @@ app.get('/:numberOfBottles', (req, res) => {
     const bottlesLeft = parseInt(req.params.numberOfBottles) || 0;
 
     if (bottlesLeft === 0) {
-        return res.send('No more bottles');
+        return res.send(`No more bottles, <a href="/${bottlesLeft + 99}">Try Again</a>`);
     }
 
-    res.send(`Number of beers: ${bottlesLeft}. <br> <a href="/${bottlesLeft - 1}">Take one down, pass it around</a> </br>`);
+    res.send(`Number of beers: ${bottlesLeft}, <a href="/${bottlesLeft - 1}">Take one down, pass it around</a>`);
 });
-
-app.get('/startOver', (req, res) => {
-    numberOfBeers = 99;
-    res.redirect('/beers');
-});
-
-
 
 app.listen(PORT, () => console.log("Server is running on port", PORT));
