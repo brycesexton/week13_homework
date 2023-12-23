@@ -1,33 +1,24 @@
-const express = require ('express')
-const app = express ()
-app.use(express.urlencoded({extended: true}))
+const express = require("express");
+const app = express();
+const PORT = 3001;
 
-let BEERS = 99;
+let numberOfBeers = 99;
 
-app.get('/', (req, res) => {
-    res.render('index', { BEERS });
-});
-
-app.get('/:number_of_bottles', (req, res) => {
-    const bottlesLeft = parseInt(req.params.number_of_bottles);
+app.get('/:numberOfBottles', (req, res) => {
+    const bottlesLeft = parseInt(req.params.numberOfBottles) || 0;
 
     if (bottlesLeft === 0) {
-        res.render('noMoreBottles');
-    } else {
-        res.render('bottles', {
-            BEERS: bottlesLeft,
-            nextNumber: bottlesLeft - 1,
-        });
+        return res.send('No more bottles');
     }
+
+    res.send(`Number of beers: ${bottlesLeft}. <br> <a href="/${bottlesLeft - 1}">Take one down, pass it around</a> </br>`);
 });
 
 app.get('/startOver', (req, res) => {
-    BEERS = 99;
-    res.redirect('/');
+    numberOfBeers = 99;
+    res.redirect('/beers');
 });
 
 
 
-app.listen(3001, () => {
-    console.log("pass it around exercise.")
-})
+app.listen(PORT, () => console.log("Server is running on port", PORT));
